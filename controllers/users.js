@@ -1,4 +1,3 @@
-const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 
 const User = require('../models/user');
@@ -9,14 +8,12 @@ const usersGet = async (req, res) => {
 
 	const [total, users] = await Promise.all([
 		User.countDocuments(query),
-		User.find(query)
-			.limit(Number(limit))
-			.skip(Number(from)),
+		User.find(query).limit(Number(limit)).skip(Number(from)),
 	]);
 
 	res.json({
 		total,
-		users
+		users,
 	});
 };
 
@@ -57,14 +54,10 @@ const usersPatch = (req, res) => {
 	});
 };
 
-const usersDelete = async(req, res) => {
+const usersDelete = async (req, res) => {
 	const { id } = req.params;
 
-	// Delete physically (not recomended)
-	// const user = await User.findByIdAndDelete(id);
-
-	// Delete by conditon (recomended)
-	const user = await User.findByIdAndUpdate(id, {condition: false});
+	const user = await User.findByIdAndUpdate(id, { condition: false });
 
 	res.json({
 		user,
