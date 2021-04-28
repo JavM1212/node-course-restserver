@@ -28,7 +28,7 @@ const usersPost = async (req, res) => {
 	//Save on DB
 	await user.save();
 
-	res.json({
+	res.status(201).json({
 		user,
 	});
 };
@@ -43,21 +43,15 @@ const usersPut = async (req, res) => {
 		rest.password = bcryptjs.hashSync(password, salt);
 	}
 
-	const user = await User.findByIdAndUpdate(id, rest);
+	const user = await User.findByIdAndUpdate(id, rest, {new: true});
 
 	res.json(user);
-};
-
-const usersPatch = (req, res) => {
-	res.json({
-		msg: 'patch API',
-	});
-};
+};	
 
 const usersDelete = async (req, res) => {
 	const { id } = req.params;
 
-	const user = await User.findByIdAndUpdate(id, { condition: false });
+	const user = await User.findByIdAndUpdate(id, { condition: false }, {new: true});
 
 	res.json({
 		user,
@@ -68,6 +62,5 @@ module.exports = {
 	usersGet,
 	usersPost,
 	usersPut,
-	usersPatch,
 	usersDelete,
 };

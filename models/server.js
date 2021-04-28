@@ -6,11 +6,18 @@ class Server {
 	constructor() {
 		// Express config
 		this.app = express();
-		this.usersPath = '/api/users';
-		this.authPath = '/api/auth';
 
 		// Port config
 		this.port = process.env.PORT;
+
+		// Path config
+		this.paths = {
+			auth: '/api/auth',
+			categories: '/api/categories',
+			products: '/api/products',
+			search: '/api/search',
+			users: '/api/users',
+		};
 
 		// Connect to data base
 		this.connectDB();
@@ -22,6 +29,7 @@ class Server {
 		this.routes();
 	}
 
+	// Connect to DB
 	async connectDB() {
 		await dbConnection();
 	}
@@ -37,11 +45,16 @@ class Server {
 		this.app.use(express.static('public'));
 	}
 
+	// Defining routes
 	routes() {
-		this.app.use(this.authPath, require('../routes/auth'));
-		this.app.use(this.usersPath, require('../routes/users'));
+		this.app.use(this.paths.auth, require('../routes/auth'));
+		this.app.use(this.paths.categories, require('../routes/categories'));
+		this.app.use(this.paths.products, require('../routes/products'));
+		this.app.use(this.paths.search, require('../routes/search'));
+		this.app.use(this.paths.users, require('../routes/users'));
 	}
 
+	// Config port listening
 	listen() {
 		this.app.listen(this.port, () => {
 			console.log('Server running at ', this.port);
