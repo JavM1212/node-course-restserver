@@ -12,8 +12,6 @@ const loadFile = async (req, res) => {
 		// const name = await uploadFile(req.files, ['txt', 'md', 'png'], 'images');
 		const name = await uploadFile(req.files, ['txt', 'md', 'png'], 'imgs');
 
-		console.log(name);
-
 		res.json({ name });
 	} catch (msg) {
 		res.status(400).json({
