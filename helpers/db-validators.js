@@ -35,10 +35,20 @@ const existsProductById = async id => {
 	}
 };
 
+const allowedCollections = (collection = '', collections = []) => {
+	const included = collections.includes(collection);
+	if (!included) {
+		throw new Error(`The collection: ${collection} is not valid. Valid collections are: ${collections}`)
+	}
+
+	return true;
+};
+
 module.exports = {
 	existsUserById,
 	existsCategoryById,
 	isRoleValid,
 	mailExists,
 	existsProductById,
+	allowedCollections,
 };
